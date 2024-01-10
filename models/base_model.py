@@ -1,15 +1,22 @@
 #!/usr/bin/python3
-"""Defines a class Base"""
+"""Defines a class Basemodel that all my objects will inherit from"""
 import uuid
 from datetime import datetime
 import models
 
 
 class BaseModel:
-    """ Class that defines properties of base """
+    """ Class that defines universal properties of my instances """
 
     def __init__(self, *args, **kwargs):
-        """ Creates new instances of Base """
+        """ Creates new instances of Base.
+
+        Args:
+            *args (list): a list of variable number of arguments.
+                All attributes are automatically assigned upon instantiation.
+            **kwargs (dict): a dictionary of instance attributes.
+                This is invoked during the instance update.
+        """
         if not kwargs:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
@@ -29,10 +36,9 @@ class BaseModel:
         Returns:
             str: class details
         """
-        string = "["
-        string += str(self.__class__.__name__) + '] ('
-        string += str(self.id) + ') ' + str(self.__dict__)
-        return string
+        return (
+                f"[{self.__class__.__name__}] ({self.id}) {str(self.__dict__)}"
+            )
 
     def save(self):
         """Update public instance attribute updated_at with current datetime.
