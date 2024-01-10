@@ -26,31 +26,35 @@ class FileStorage():
     __file_path = "file.json"
     __objects = {}
 
-    def all(self):
+    @classmethod
+    def all(cls):
         """Returns the dictionary objects.
 
         Returns:
             dict: objects.
         """
-        return self.__objects
+        return cls.__objects
 
-    def new(self, obj):
+    @classmethod
+    def new(cls, obj):
         """Sets in __objects the obj with key <obj class name>.id.
 
         Args:
             obj (any): object.
         """
         key = f"{obj.__class__.__name__ }.{obj.id}"
-        self.__objects[key] = obj
+        cls.__objects[key] = obj
 
-    def save(self):
+    @classmethod
+    def save(cls):
         """Serializes __objects to the JSON file (path: __file_path).
         """
-        s_data = {key: obj.to_dict() for key, obj in self.__objects.items()}
-        with open(self.__file_path, 'w', encoding="utf-8") as myFile:
+        s_data = {key: obj.to_dict() for key, obj in cls.__objects.items()}
+        with open(cls.__file_path, 'w', encoding="utf-8") as myFile:
             json.dump(s_data, myFile)
 
-    def reload(self):
+    @classmethod
+    def reload(cls):
         """Deserializes the JSON file to __objects.
 
         only if the JSON file(__file_path) exists ;
@@ -58,22 +62,23 @@ class FileStorage():
         exist, no exception should be raised)
         """
         try:
-            with open(self.__file_path, 'r', encoding='utf-8') as myFile:
+            with open(cls.__file_path, 'r', encoding='utf-8') as myFile:
                 d_data = json.load(myFile)
-                self.__objects = {}
+                cls.__objects = {}
                 for key, obj_dict in d_data.items():
                     class_name, obj_id = key.split('.')
                     obj = globals()[class_name](**obj_dict)
-                    self.__objects[key] = obj
+                    cls.__objects[key] = obj
         except FileNotFoundError:
             pass
 
-    def delete(self, obj):
+    @classmethod
+    def delete(cls, obj):
         """Deletes obj from __objects
         """
         try:
             key = obj.__class__.__name__ + '.' + str(obj.id)
-            del self.__objects[key]
+            del cls.__objects[key]
             return True
         except Exception:
             return False
