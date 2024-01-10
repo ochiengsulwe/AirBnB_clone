@@ -22,6 +22,7 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = self.created_at
             models.storage.new(self)
+            models.storage.save()
         else:
             time_format = "%Y-%m-%dT%H:%M:%S.%f"
             for (key, value) in kwargs.items():
