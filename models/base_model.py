@@ -57,3 +57,5 @@ class BaseModel:
         dict_['created_at'] = self.created_at.isoformat()
         dict_['updated_at'] = self.updated_at.isoformat()
         return dict_
+
+storage = models.storage
