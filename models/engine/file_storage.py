@@ -47,20 +47,14 @@ class FileStorage():
 
     @classmethod
     def save(cls):
-        """Serializes __objects to the JSON file (path: __file_path).
-        """
+        """Serializes __objects to the JSON file (path: __file_path)."""
         s_data = {key: obj.to_dict() for key, obj in cls.__objects.items()}
         with open(cls.__file_path, 'w', encoding="utf-8") as myFile:
             json.dump(s_data, myFile)
 
     @classmethod
     def reload(cls):
-        """Deserializes the JSON file to __objects.
-
-        only if the JSON file(__file_path) exists ;
-        otherwise, it does nothing. If the file doesn’t
-        exist, no exception should be raised)
-        """
+        """Deserializes the JSON file to __objects."""
         try:
             with open(cls.__file_path, 'r', encoding='utf-8') as myFile:
                 d_data = json.load(myFile)
@@ -74,8 +68,7 @@ class FileStorage():
 
     @classmethod
     def delete(cls, obj):
-        """Deletes obj from __objects
-        """
+        """Deletes obj from __object"""
         try:
             key = obj.__class__.__name__ + '.' + str(obj.id)
             del cls.__objects[key]

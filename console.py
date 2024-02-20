@@ -1,16 +1,5 @@
 #!/usr/bin/python3
-"""Contains the entry point of the command interpreter.
-
-You must use the module cmd.
-Your class definition must be: class HBNBCommand(cmd.Cmd):
-Your command interpreter should implement:
-quit and EOF to exit the program,
-help (this action is provided by default by cmd but you should keep it
-updated and documented as you work through tasks),
-a custom prompt: (hbnb),
-an empty line + ENTER shouldn’t execute anything.
-Your code should not be executed when imported
-"""
+"""Contains the entry point of the command interpreter."""
 import cmd
 import models
 from models.base_model import BaseModel
@@ -36,19 +25,24 @@ class HBNBCommand(cmd.Cmd):
     commands_list = ["create", "show", "all", "destroy", "update", "count"]
 
     def do_quit(self, args):
-        """Quit command to exit the program
-        """
+        """Quit command to exit the program """
         return True
 
     def do_EOF(self, args):
-        """EOF command to exit the program
-        """
+        """EOF command to exit the program"""
         return True
 
     def emptyline(self):
-        """Empty line shouldn't execute anything
-        """
+        """Empty line shouldn't execute anything"""
         pass
+
+    def postloop(self):
+        """Does the necessary cleanups on exit.
+
+        In this case, it allows my command line intepreter to start on new
+            line upon exit of the SHELL.
+        """
+        print("")
 
     def do_create(self, inp):
         """Creates a new instance of BaseModel, saves it (to the JSON
