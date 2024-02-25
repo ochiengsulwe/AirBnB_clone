@@ -30,6 +30,8 @@ class BaseModel:
                     self.__dict__[key] = datetime.strptime(value, time_format)
                 else:
                     self.__dict__[key] = value
+            models.storage.new(self)
+            models.storage.save()
 
     def __str__(self):
         """Returns a string represation of class details.
