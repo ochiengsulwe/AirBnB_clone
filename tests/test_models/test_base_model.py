@@ -26,7 +26,7 @@ class TestBaseModel(unittest.TestCase):
         actual_class = type(self.BaseModel1)
         self.assertEqual(expected_class, actual_class)
 
-    def testBaseModel1(self):
+    def test_BaseModel1(self):
         """Test attributes value of a BaseModel instance."""
         self.BaseModel1.save()
         my_model_json = self.BaseModel1.to_dict()
@@ -44,13 +44,13 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(type(self.BaseModel1.id), str)
         self.assertIsInstance(self.BaseModel1.created_at, datetime.datetime)
         self.assertIsInstance(self.BaseModel1.updated_at, datetime.datetime)
-"""
+
     def test_save(self):
         """Test if save method is working correctly after update."""
         self.BaseModel1.save()
         self.assertNotEqual(self.BaseModel1.created_at,
                             self.BaseModel1.updated_at)
-"""
+
     def test_functions(self):
         """Test if BaseModel moudule is documented."""
         self.assertIsNotNone(BaseModel.__doc__)

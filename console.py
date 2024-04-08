@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Contains the entry point of the command interpreter."""
 import cmd
-import models
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -14,10 +13,10 @@ import shlex
 
 
 class HBNBCommand(cmd.Cmd):
-    """class for command processor.
+    """Used to manipulate classes, instances, attributes within this project.
 
     Args:
-        cmd (_type_): _description_
+        cmd.Cmd (_type_): The class from which I inherit from.
     """
     prompt = "(hbnb) "
     classes_list = ["BaseModel", "User", "State", "City", "Amenity",
@@ -42,22 +41,31 @@ class HBNBCommand(cmd.Cmd):
         In this case, it allows my command line intepreter to start on new
             line upon exit of the SHELL.
         """
-        print("")
+        print
 
     def do_create(self, inp):
-        """Creates a new instance of BaseModel, saves it (to the JSON
-        file) and prints the id.
+        """Creates a new instance of BaseModel.
+
+            The created instance is saved(to a JSON file/database) and
+                the instance id is printed to stdout.
 
         Args:
-            class_name (class): name of current class.
+            inp (str): input string containing name of class to create an
+                       instance of.
         """
         args = inp.split()
-        if not self.class_verification(args):
+        if not class_verification(args):
             return
 
-        inst = eval(str(args[0]) + '()')
-        if not isinstance(inst, BaseModel):
+        class_name = args[0]
+
+        try:
+            cls = getattr(models, class_name)
+        except AttributeError:
+            print(f"Class '{class_name}' does not exist.")
             return
+
+        inst = cls()
         inst.save()
         print(inst.id)
 
@@ -75,7 +83,7 @@ class HBNBCommand(cmd.Cmd):
 
         string_key = str(args[0]) + '.' + str(args[1])
         objects = models.storage.all()
-        print(objects[string_key])
+        print(f"{objects[string_key]}")
 
     @classmethod
     def class_verification(cls, args):

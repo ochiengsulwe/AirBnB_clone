@@ -28,7 +28,7 @@ class FileStorage():
 
     @classmethod
     def all(cls):
-        """Returns the dictionary objects.
+        """Returns all objects in the json file.
 
         Returns:
             dict: objects.
