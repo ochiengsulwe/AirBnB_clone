@@ -10,6 +10,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 import shlex
+import models
 
 
 class HBNBCommand(cmd.Cmd):
@@ -54,16 +55,12 @@ class HBNBCommand(cmd.Cmd):
                        instance of.
         """
         args = inp.split()
-        if not class_verification(args):
+        if not self.class_verification(args):
             return
 
         class_name = args[0]
 
-        try:
-            cls = getattr(models, class_name)
-        except AttributeError:
-            print(f"Class '{class_name}' does not exist.")
-            return
+        cls = globals()[class_name]
 
         inst = cls()
         inst.save()
